@@ -8,8 +8,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
-    "lint": "yarn lint:js",
-    "lintfix": "yarn lint:js --fix",
+    "lint": "npm run lint:js",
+    "lintfix": "npm run lint:js -- --fix",
     "test": "jest"
   },
   "dependencies": {
