@@ -7,7 +7,7 @@
     >
       ガチャを回す
     </button>
-    <div>
+    <div v-if="msgs.length > 0">
       {{ msgs }}
     </div>
   </div>
