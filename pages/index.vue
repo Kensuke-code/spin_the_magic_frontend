@@ -5,7 +5,7 @@
       name="button"
       @click="getMsg"
     >
-      RailsからAPIを取得する
+      ガチャを回す
     </button>
     <div>
       {{ msgs }}
@@ -22,8 +22,11 @@ export default {
   },
   methods: {
     getMsg () {
-      this.$axios.$get('/api/v1/spin_gacha').then(console.log('fetched')).catch(e => console.log(e))
-    // .then(res => this.msgs.push(res))
+      this.$axios.$get('/api/v1/spin_gacha')
+      .then(res => 
+        this.msgs.push(res)
+      )
+      console.log(this.msgs)
     }
   }
 }
