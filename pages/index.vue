@@ -1,5 +1,18 @@
 <template>
   <div class="page-all">
+    <div v-if="isShowAttraction">
+      <div class="attraction-section">
+        <div :style="attractionThumbnail"></div>
+        <div class="attraction-text">
+          <div class="attraction-name">
+            {{ selectedAttraction.name }}
+          </div>
+          <div class="attraction-condition">
+            {{ selectedAttraction.condition }}
+          </div>
+        </div>
+      </div>
+    </div>
     <button
       type="button"
       name="button"
@@ -7,18 +20,7 @@
       @click="spinGacha"
     >
       ガチャを回す
-    </button>
-    <div v-if="isShowAttraction">
-      <div class="attraction-section">
-        <img class="attraction-thumbnail" v-bind:src="selectedAttractionImagePath"/>
-        <div >
-          {{ selectedAttraction.name }}
-        </div>
-        <div >
-          {{ selectedAttraction.condition }}
-        </div>
-      </div>
-    </div>
+    </button>    
   </div>
 </template>
 
@@ -44,6 +46,11 @@ export default {
       // ランダムでガチャを回す
       const min = 1
       const max = this.attractions.length
+
+      // 営業終了していてアトラクションが稼働していない時
+      if (max === 0) {
+        return this.$router.push('/sorry');
+      }
       const selectedId = Math.floor( Math.random() * (max + 1 - min) ) + min ;
 
       // 決定したIDのアトラクション情報を取得する
@@ -54,12 +61,26 @@ export default {
     }
   },
   computed: {
-    thumbnailPrefix() {
+    thumbnailId() {
       return ( '000' + this.selectedAttraction.id).slice( -3);
     },
     generateAssetPath() {
       // FIXME: idの0の桁数によって変える必要がある
-      return `https://d1hhvvlrb2g6r9.cloudfront.net/attractions/img/thumbnail/${this.thumbnailPrefix}_thum_name.jpg`
+      return `https://d1hhvvlrb2g6r9.cloudfront.net/attractions/img/thumbnail/${this.thumbnailId}_thum_name.jpg`
+    },
+    attractionThumbnail() {
+      // computedのgenerateAssetPathの値がstyleからだと参照できないのでcomputedに記載
+      return {
+        width: '400px',
+        height: '400px',
+        borderRadius: '50%',
+        backgroundImage: `url(${this.generateAssetPath})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        border: 'solid 4px #0000CD',
+        margin: '5px auto 20px'
+
+      }
     }
   }
 }
@@ -80,12 +101,25 @@ export default {
   border-color: #F0E68C;
   border-width: medium;
 }
-.attraction-section {
-  margin: auto
+.attraction-text {
+  text-align: center;
 }
-.attraction-thumbnail {
-  width:300px;
-  height:300px;
-  border-radius:50%;
+.attraction-name {
+  font-family: Verdana;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.3;
+  color: #333333;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  letter-spacing: 0.5px;
+}
+.attraction-condition {
+  margin-top: 5px;
+  font-family: Verdana;
+  font-size: 18px;
+  line-height: 1.3;
+  color: #333333;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  letter-spacing: 0.5px;
 }
 </style>
