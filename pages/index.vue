@@ -106,6 +106,8 @@ body {
   border-radius: 16px;
   border-color: #F0E68C;
   border-width: medium;
+  font-family: Verdana;
+  font-size: 16px;
 }
 .attraction-text {
   text-align: center;
@@ -118,6 +120,7 @@ body {
   color: #333333;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   letter-spacing: 0.5px;
+  height: 78px;
 }
 .attraction-condition {
   margin-top: 5px;
