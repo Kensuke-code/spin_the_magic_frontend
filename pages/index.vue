@@ -71,8 +71,8 @@ export default {
     attractionThumbnail() {
       // computedのgenerateAssetPathの値がstyleからだと参照できないのでcomputedに記載
       return {
-        width: '400px',
-        height: '400px',
+        width: '300px',
+        height: '300px',
         borderRadius: '50%',
         backgroundImage: `url(${this.generateAssetPath})`,
         backgroundSize: 'cover',
@@ -86,15 +86,21 @@ export default {
 }
 </script>
 <style>
-.page-all {
+html {
   background-color: #99CCFF;
+}
+body {
+  margin: 0;
+  padding: 20px;
+}
+.page-all {
   height: 100vh;
 }
 .spin-gacha-button {
   display: block;
   margin: 18px auto;
-  height: 36px;
-  width: 147px;
+  height: 44px;
+  width: 154px;
   color: #fff;
   background: #0066CC;
   border-radius: 16px;
@@ -106,7 +112,7 @@ export default {
 }
 .attraction-name {
   font-family: Verdana;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   line-height: 1.3;
   color: #333333;
@@ -116,7 +122,7 @@ export default {
 .attraction-condition {
   margin-top: 5px;
   font-family: Verdana;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.3;
   color: #333333;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
