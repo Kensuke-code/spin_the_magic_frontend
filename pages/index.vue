@@ -71,8 +71,8 @@ export default {
     attractionThumbnail() {
       // computedのgenerateAssetPathの値がstyleからだと参照できないのでcomputedに記載
       return {
-        width: '300px',
-        height: '300px',
+        width: '320px',
+        height: '320px',
         borderRadius: '50%',
         backgroundImage: `url(${this.generateAssetPath})`,
         backgroundSize: 'cover',
@@ -114,18 +114,18 @@ body {
 }
 .attraction-name {
   font-family: Verdana;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: bold;
   line-height: 1.3;
   color: #333333;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
   height: 78px;
 }
 .attraction-condition {
   margin-top: 5px;
   font-family: Verdana;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 1.3;
   color: #333333;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
