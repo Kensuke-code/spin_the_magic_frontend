@@ -13,13 +13,14 @@
         </div>
       </div>
     </div>
+    <div v-else class="blank-section" />
     <button
       type="button"
       name="button"
       class="spin-gacha-button"
       @click="spinGacha"
     >
-      ガチャを回す
+      {{ buttonText }}
     </button>    
   </div>
 </template>
@@ -81,6 +82,13 @@ export default {
         margin: '5px auto 20px'
 
       }
+    },
+    buttonText() {
+      if(this.isShowAttraction === false){
+        return 'ガチャを回す'
+      }else {
+        return 'もう一度ガチャを回す'
+      }
     }
   }
 }
@@ -96,11 +104,14 @@ body {
 .page-all {
   height: 100vh;
 }
+.blank-section {
+  min-height: 453.09px;
+}
 .spin-gacha-button {
   display: block;
   margin: 18px auto;
   height: 44px;
-  width: 154px;
+  width: 179px;
   color: #fff;
   background: #0066CC;
   border-radius: 16px;
