@@ -32,7 +32,8 @@ export default {
       attractions: [],
       isShowAttraction: false,
       selectedAttraction: {},
-      selectedAttractionImagePath: ""
+      selectedAttractionImagePath: "",
+      intervalId: null,
     }
   },
   created() {
@@ -52,13 +53,26 @@ export default {
       if (max === 0) {
         return this.$router.push('/sorry');
       }
-      const selectedId = Math.floor( Math.random() * (max + 1 - min) ) + min ;
+      // const selectedId = Math.floor( Math.random() * (max + 1 - min) ) + min ;
 
-      // 決定したIDのアトラクション情報を取得する
-      this.selectedAttraction = this.attractions.find(e => e.sort_id === selectedId)
-      this.selectedAttractionImagePath = this.generateAssetPath
+      // 既存のルーレットのインターバルをクリア
+      if (this.intervalId) {
+        clearInterval(this.intervalId); 
+      }
 
-      this.isShowAttraction = true
+      this.intervalId = setInterval(() => {
+        // ランダムなアトラクションを選択
+        this.isShowAttraction = true;
+        const selectedId = Math.floor( Math.random() * (max + 1 - min) ) + min ;
+        this.selectedAttraction = this.attractions.find(e => e.sort_id === selectedId)
+        this.selectedAttractionImagePath = this.generateAssetPath
+      }, 100); // 100ミリ秒ごとに切り替え
+      
+      setTimeout(() => {
+        // 3秒後にルーレットを停止
+        clearInterval(this.intervalId);
+      }, 3000);
+
     }
   },
   computed: {
