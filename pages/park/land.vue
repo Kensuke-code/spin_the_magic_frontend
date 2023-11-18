@@ -1,7 +1,27 @@
 <template>
   <div class="page-all">
-    <NuxtLink to="/park/sea">Seaに行く</NuxtLink>
-    <NuxtLink to="/park/land">Landに行く</NuxtLink>
+    <div v-if="isShowAttraction">
+      <div class="attraction-section">
+        <div :style="attractionThumbnail"></div>
+        <div class="attraction-text">
+          <div class="attraction-name">
+            {{ selectedAttraction.name }}
+          </div>
+          <div class="attraction-condition">
+            {{ selectedAttraction.condition }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-else class="blank-section" />
+    <button
+      type="button"
+      name="button"
+      class="spin-gacha-button"
+      @click="spinGacha"
+    >
+      {{ buttonText }}
+    </button>    
   </div>
 </template>
 
@@ -18,7 +38,11 @@ export default {
   },
   created() {
     // アトラクションの情報を取得
-    this.$axios.$get('/api/v1/spin_gacha')
+    this.$axios.$get('/api/v1/spin_gacha',{
+      params: {
+        park: this.park
+      }
+    })
     .then(res => 
       this.attractions = res
     )
@@ -56,6 +80,9 @@ export default {
     }
   },
   computed: {
+    park() {
+      return 'land'
+    },
     thumbnailId() {
       return ( '000' + this.selectedAttraction.id).slice( -3);
     },
@@ -72,7 +99,7 @@ export default {
         backgroundImage: `url(${this.generateAssetPath})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        border: 'solid 4px #0000CD',
+        border: 'solid 4px #FF00FF',
         margin: '5px auto 20px'
 
       }
@@ -89,7 +116,7 @@ export default {
 </script>
 <style>
 html {
-  background-color: #99CCFF;
+  background-color: #FFBBFF;
 }
 body {
   margin: 0;
@@ -107,7 +134,7 @@ body {
   height: 44px;
   width: 179px;
   color: #fff;
-  background: #0066CC;
+  background: #FF55FF;
   border-radius: 16px;
   border-color: #F0E68C;
   border-width: medium;
