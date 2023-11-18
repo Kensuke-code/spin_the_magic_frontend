@@ -1,33 +1,7 @@
 <template>
   <div>
-    <button
-      type="button"
-      name="button"
-      @click="getMsg"
-    >
-      ガチャを回す
-    </button>
-    <div v-if="msgs.length > 0">
-      {{ msgs }}
-    </div>
+    <div>ディズニーガチャ</div>
+    <NuxtLink to="/park/land">Landに行く</NuxtLink>
+    <NuxtLink to="/park/sea">Seaに行く</NuxtLink>
   </div>
 </template>
-
-<script>
-export default {
-  data () {
-    return {
-      msgs: []
-    }
-  },
-  methods: {
-    getMsg () {
-      this.$axios.$get('/api/v1/spin_gacha')
-      .then(res => 
-        this.msgs.push(res)
-      )
-      console.log(this.msgs)
-    }
-  }
-}
-</script>
