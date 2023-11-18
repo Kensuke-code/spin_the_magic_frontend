@@ -1,5 +1,5 @@
 <template>
-  <div class="page-all">
+  <div class="page-sea">
     <div v-if="isShowAttraction">
       <div class="attraction-section">
         <div :style="attractionThumbnail"></div>
@@ -17,11 +17,12 @@
     <button
       type="button"
       name="button"
-      class="spin-gacha-button"
+      class="sea-spin-gacha-button"
       @click="spinGacha"
     >
       {{ buttonText }}
-    </button>    
+    </button>
+    <NuxtLink to="/park/land">Landに行く</NuxtLink>
   </div>
 </template>
 
@@ -115,20 +116,14 @@ export default {
 }
 </script>
 <style>
-html {
+.page-sea {
   background-color: #99CCFF;
-}
-body {
-  margin: 0;
-  padding: 20px;
-}
-.page-all {
   height: 100vh;
 }
 .blank-section {
-  min-height: 453.09px;
+  min-height: 473.09px;
 }
-.spin-gacha-button {
+.sea-spin-gacha-button {
   display: block;
   margin: 18px auto;
   height: 44px;
@@ -140,6 +135,9 @@ body {
   border-width: medium;
   font-family: Verdana;
   font-size: 16px;
+}
+.attraction-section {
+  padding-top: 20px;
 }
 .attraction-text {
   text-align: center;
