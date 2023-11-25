@@ -22,12 +22,19 @@
     >
       {{ buttonText }}
     </button>    
-    <NuxtLink to="/park/sea">Seaに行く</NuxtLink>
+    <NuxtLink class="another-park-link" to="/park/sea">ディズニーシーに行く</NuxtLink>
   </div>
 </template>
 
 <script>
 export default {
+  head () {
+    return {
+      bodyAttrs: {
+        class: 'reset-body'
+      }
+    }
+  },
   data () {
     return {
       attractions: [],
@@ -94,8 +101,8 @@ export default {
     attractionThumbnail() {
       // computedのgenerateAssetPathの値がstyleからだと参照できないのでcomputedに記載
       return {
-        width: '320px',
-        height: '320px',
+        width: '350px',
+        height: '290px',
         borderRadius: '50%',
         backgroundImage: `url(${this.generateAssetPath})`,
         backgroundSize: 'cover',
@@ -109,7 +116,7 @@ export default {
       if(this.isShowAttraction === false){
         return 'ガチャを回す'
       }else {
-        return 'もう一度ガチャを回す'
+        return 'もう一度回す'
       }
     }
   }
@@ -121,13 +128,13 @@ export default {
   background-color: #FFBBFF;
 }
 .blank-section {
-  min-height: 473.09px;
+  min-height: 453.09px;
 }
 .land-spin-gacha-button {
   display: block;
   margin: 18px auto;
   height: 44px;
-  width: 179px;
+  width: 190px;
   color: #fff;
   background: #FF55FF;
   border-radius: 16px;
@@ -160,5 +167,11 @@ export default {
   color: #333333;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   letter-spacing: 0.5px;
+}
+.reset-body {
+  margin: 0
+}
+.another-park-link {
+  padding-left: 8px
 }
 </style>
