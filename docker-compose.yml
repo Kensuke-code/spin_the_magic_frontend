@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-        API_URL: "http://localhost:3000"
+        API_URL: "http://$DEV_HOST:3000"
     command: "yarn run dev"
     volumes:
       - .:/app
