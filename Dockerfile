@@ -1,5 +1,7 @@
 FROM node:16.13.1-alpine
 
+RUN apk update && apk add  make gcc g++ python3
+
 ARG API_URL
 
 ENV LANG=C.UTF-8 \
