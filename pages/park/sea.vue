@@ -15,9 +15,8 @@
     </div>
     <div v-else class="blank-section" />
     <Dropdown
-      v-model="waitTimeLimit"
       :options="waitTimeOptions"
-      v-on:selected="validateSelection"
+      :selected="validateSelection"
       name="waittime"
       :maxItem="30"
       :placeholder="timePlaceholder"
@@ -51,12 +50,10 @@ export default {
       selectedAttraction: {},
       selectedAttractionImagePath: "",
       intervalId: null,
-      waitTimeLimit: 300,
+      waitTimeLimit: "指定なし"
     }
   },
   created() {
-    // 待ち時間初期化
-    this.waitTimeLimit = 300; 
     // アトラクションの情報を取得
     this.$axios.$get('/api/v1/spin_gacha',{
       params: {
@@ -68,8 +65,13 @@ export default {
     )
   },
   methods: {
-    validateSelection(selectedObject) {
-      this.waitTimeLimit = selectedObject.name
+    validateSelection(
+      
+    ) {
+      if(selectedObject.length !== undefined){
+        this.waitTimeLimit = selectedObject.name
+      }
+      console.log(this.waitTimeLimit)
     },
     spinGacha () {
       // ランダムでガチャを回す
@@ -101,6 +103,9 @@ export default {
     }
   },
   computed: {
+    isValidAttractionFilter(){
+      return this.waitTimeLimit !== '指定なし'
+    },
     park() {
       return 'sea'
     },
@@ -154,9 +159,14 @@ export default {
       return waitTimeList
     },
     filteredAttractions()  {
-      return this.attractions.filter(attraction => 
-        attraction.condition <= 60
-      )
+      if (this.isValidAttractionFilter) {
+        return this.attractions.filter(attraction => 
+          attraction.condition <= Number(this.waitTimeLimit)
+        )
+      }else {
+        return this.attractions
+      }
+
     },
   }
 }
