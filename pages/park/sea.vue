@@ -8,12 +8,20 @@
             {{ selectedAttraction.name }}
           </div>
           <div class="attraction-condition">
-            {{ selectedAttraction.condition }}
+            {{ selectedAttraction.condition }}分待ち
           </div>
         </div>
       </div>
     </div>
     <div v-else class="blank-section" />
+    <Dropdown
+      :options="waitTimeOptions"
+      :selected="validateSelection"
+      name="waittime"
+      :maxItem="30"
+      :placeholder="timePlaceholder"
+    >
+    </Dropdown>
     <button
       type="button"
       name="button"
@@ -42,6 +50,7 @@ export default {
       selectedAttraction: {},
       selectedAttractionImagePath: "",
       intervalId: null,
+      waitTimeLimit: "指定なし"
     }
   },
   created() {
@@ -56,16 +65,23 @@ export default {
     )
   },
   methods: {
+    validateSelection(
+      
+    ) {
+      if(selectedObject.length !== undefined){
+        this.waitTimeLimit = selectedObject.name
+      }
+      console.log(this.waitTimeLimit)
+    },
     spinGacha () {
       // ランダムでガチャを回す
-      const min = 1
-      const max = this.attractions.length
+      // 待ち時間制限でアトラクションをフィルタリングする
+      const filterdAttraction = this.filteredAttractions
 
       // 営業終了していてアトラクションが稼働していない時
-      if (max === 0) {
-        return this.$router.push('/sorry');
+      if (filterdAttraction.length === 0) {
+        // return this.$router.push('/sorry');
       }
-      // const selectedId = Math.floor( Math.random() * (max + 1 - min) ) + min ;
 
       // 既存のルーレットのインターバルをクリア
       if (this.intervalId) {
@@ -75,19 +91,21 @@ export default {
       this.intervalId = setInterval(() => {
         // ランダムなアトラクションを選択
         this.isShowAttraction = true;
-        const selectedId = Math.floor( Math.random() * (max + 1 - min) ) + min ;
-        this.selectedAttraction = this.attractions.find(e => e.sort_id === selectedId)
+        const selectedId = Math.floor( Math.random() * filterdAttraction.length)
+        this.selectedAttraction = filterdAttraction[selectedId]
         this.selectedAttractionImagePath = this.generateAssetPath
-      }, 100); // 100ミリ秒ごとに切り替え
+      }, 120); // 120ミリ秒ごとに切り替え
       
       setTimeout(() => {
         // 3秒後にルーレットを停止
         clearInterval(this.intervalId);
       }, 3000);
-
     }
   },
   computed: {
+    isValidAttractionFilter(){
+      return this.waitTimeLimit !== '指定なし'
+    },
     park() {
       return 'sea'
     },
@@ -118,7 +136,38 @@ export default {
       }else {
         return 'もう一度回す'
       }
-    }
+    }, 
+    timePlaceholder() {
+      return '待ち時間の上限値を選択してください'
+    },
+    waitTimeOptions() {
+
+      let waitTimeList = []
+      // 10分から200分までのリストを作成する
+      // 指定なしも入れる
+      const countLimit = 20
+      const waitTimeWeighting = 10
+      let count = 1
+
+      for (count ; count <= countLimit; count++) {
+        let waitTime = count * waitTimeWeighting
+        waitTimeList.push(
+          {id: count, name: waitTime.toString() }
+        )
+      }
+      waitTimeList.unshift({id: count,name: '指定なし'})
+      return waitTimeList
+    },
+    filteredAttractions()  {
+      if (this.isValidAttractionFilter) {
+        return this.attractions.filter(attraction => 
+          attraction.condition <= Number(this.waitTimeLimit)
+        )
+      }else {
+        return this.attractions
+      }
+
+    },
   }
 }
 </script>
@@ -173,5 +222,8 @@ export default {
 }
 .another-park-link {
   padding-left: 8px
+}
+.dropdown {
+  margin-left: 10px
 }
 </style>
